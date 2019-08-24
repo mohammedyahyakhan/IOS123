@@ -1,0 +1,380 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Avalonia.Markup.Xaml</name>
+    </assembly>
+    <members>
+        <member name="T:Avalonia.Markup.Xaml.AvaloniaXamlLoader">
+            <summary>
+            Loads XAML for a avalonia application.
+            </summary>
+        </member>
+        <member name="M:Avalonia.Markup.Xaml.AvaloniaXamlLoader.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Avalonia.Markup.Xaml.AvaloniaXamlLoader"/> class.
+            </summary>
+        </member>
+        <member name="M:Avalonia.Markup.Xaml.AvaloniaXamlLoader.Load(System.Object)">
+            <summary>
+            Loads the XAML into a Avalonia component.
+            </summary>
+            <param name="obj">The object to load the XAML into.</param>
+        </member>
+        <member name="M:Avalonia.Markup.Xaml.AvaloniaXamlLoader.Load(System.Type,System.Object)">
+            <summary>
+            Loads the XAML for a type.
+            </summary>
+            <param name="type">The type.</param>
+            <param name="rootInstance">
+            The optional instance into which the XAML should be loaded.
+            </param>
+            <returns>The loaded object.</returns>
+        </member>
+        <member name="M:Avalonia.Markup.Xaml.AvaloniaXamlLoader.Load(System.Uri,System.Uri,System.Object)">
+            <summary>
+            Loads XAML from a URI.
+            </summary>
+            <param name="uri">The URI of the XAML file.</param>
+            <param name="baseUri">
+            A base URI to use if <paramref name="uri"/> is relative.
+            </param>
+            <param name="rootInstance">
+            The optional instance into which the XAML should be loaded.
+            </param>
+            <returns>The loaded object.</returns>
+        </member>
+        <member name="M:Avalonia.Markup.Xaml.AvaloniaXamlLoader.Load(System.String,System.Reflection.Assembly,System.Object)">
+            <summary>
+            Loads XAML from a string.
+            </summary>
+            <param name="xaml">The string containing the XAML.</param>
+            <param name="localAssembly">Default assembly for clr-namespace:</param>
+            <param name="rootInstance">
+            The optional instance into which the XAML should be loaded.
+            </param>
+            <returns>The loaded object.</returns>
+        </member>
+        <member name="M:Avalonia.Markup.Xaml.AvaloniaXamlLoader.Load(System.IO.Stream,System.Reflection.Assembly,System.Object,System.Uri)">
+            <summary>
+            Loads XAML from a stream.
+            </summary>
+            <param name="stream">The stream containing the XAML.</param>
+            <param name="localAssembly">Default assembly for clr-namespace</param>
+            <param name="rootInstance">
+            The optional instance into which the XAML should be loaded.
+            </param>
+            <param name="uri">The URI of the XAML</param>
+            <returns>The loaded object.</returns>
+        </member>
+        <member name="M:Avalonia.Markup.Xaml.AvaloniaXamlLoader.GetUrisFor(Avalonia.Platform.IAssetLoader,System.Type)">
+            <summary>
+            Gets the URI for a type.
+            </summary>
+            <param name="assetLocator"></param>
+            <param name="type">The type.</param>
+            <returns>The URI.</returns>
+        </member>
+        <member name="T:Avalonia.Markup.Xaml.Converters.ParseTypeConverter">
+            <summary>
+            Base class for type converters which call a static Parse method.
+            </summary>
+        </member>
+        <member name="M:Avalonia.Markup.Xaml.Converters.ParseTypeConverter.HasParseMethod(System.Type)">
+            <summary>
+            Checks whether a type has a suitable Parse method.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>True if the type has a suitable parse method, otherwise false.</returns>
+        </member>
+        <member name="T:Avalonia.Markup.Xaml.Converters.ParseTypeConverter`1">
+            <summary>
+            A type converter which calls a static Parse method.
+            </summary>
+            <typeparam name="T">The type with the Parse method.</typeparam>
+        </member>
+        <member name="T:Avalonia.Markup.Xaml.MarkupExtensions.ResourceInclude">
+            <summary>
+            Loads a resource dictionary from a specified URL.
+            </summary>
+        </member>
+        <member name="P:Avalonia.Markup.Xaml.MarkupExtensions.ResourceInclude.Loaded">
+            <summary>
+            Gets the loaded resource dictionary.
+            </summary>
+        </member>
+        <member name="P:Avalonia.Markup.Xaml.MarkupExtensions.ResourceInclude.Source">
+            <summary>
+            Gets or sets the source URL.
+            </summary>
+        </member>
+        <member name="P:Avalonia.Markup.Xaml.MarkupExtensions.ResourceInclude.Avalonia#Controls#IResourceProvider#HasResources">
+            <inhertidoc/>
+        </member>
+        <member name="M:Avalonia.Markup.Xaml.MarkupExtensions.ResourceInclude.Avalonia#Controls#IResourceProvider#TryGetResource(System.String,System.Object@)">
+            <inhertidoc/>
+        </member>
+        <member name="M:Avalonia.Markup.Xaml.MarkupExtensions.ResourceInclude.ProvideValue(System.IServiceProvider)">
+            <inhertidoc/>
+        </member>
+        <member name="T:Avalonia.Markup.Xaml.AvaloniaTypeConverters">
+            <summary>
+            Maintains a repository of <see cref="T:System.ComponentModel.TypeConverter"/>s for XAML parsing on top of those
+            maintained by <see cref="T:System.ComponentModel.TypeDescriptor"/>.
+            </summary>
+            <remarks>
+            The default method of defining type converters using <see cref="T:System.ComponentModel.TypeConverterAttribute"/>
+            isn't powerful enough for our purposes:
+            
+            - It doesn't handle non-constructed generic types (such as <see cref="T:Avalonia.Collections.AvaloniaList`1"/>)
+            - Type converters which require XAML features cannot be defined in non-XAML assemblies and
+              so can't be referenced using <see cref="T:System.ComponentModel.TypeConverterAttribute"/>
+            - Many types have a static `Parse(string)` method which can be used implicitly; this class
+              detects such methods and auto-creates a type converter
+            </remarks>
+        </member>
+        <member name="M:Avalonia.Markup.Xaml.AvaloniaTypeConverters.GetTypeConverter(System.Type)">
+            <summary>
+            Tries to lookup a <see cref="T:System.ComponentModel.TypeConverter"/> for a type.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>The type converter.</returns>
+        </member>
+        <member name="M:Avalonia.Markup.Xaml.AvaloniaTypeConverters.Register(System.Type,System.Type)">
+            <summary>
+            Registers a type converter for a type.
+            </summary>
+            <param name="type">The type. Maybe be a non-constructed generic type.</param>
+            <param name="converterType">The converter type. Maybe be a non-constructed generic type.</param>
+        </member>
+        <member name="T:Avalonia.Markup.Xaml.Styling.StyleInclude">
+            <summary>
+            Includes a style from a URL.
+            </summary>
+        </member>
+        <member name="M:Avalonia.Markup.Xaml.Styling.StyleInclude.#ctor(System.Uri)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Avalonia.Markup.Xaml.Styling.StyleInclude"/> class.
+            </summary>
+            <param name="baseUri"></param>
+        </member>
+        <member name="E:Avalonia.Markup.Xaml.Styling.StyleInclude.ResourcesChanged">
+            <inheritdoc/>
+        </member>
+        <member name="P:Avalonia.Markup.Xaml.Styling.StyleInclude.Source">
+            <summary>
+            Gets or sets the source URL.
+            </summary>
+        </member>
+        <member name="P:Avalonia.Markup.Xaml.Styling.StyleInclude.Loaded">
+            <summary>
+            Gets the loaded style.
+            </summary>
+        </member>
+        <member name="P:Avalonia.Markup.Xaml.Styling.StyleInclude.Avalonia#Controls#IResourceProvider#HasResources">
+            <inheritdoc/>
+        </member>
+        <member name="P:Avalonia.Markup.Xaml.Styling.StyleInclude.Avalonia#Controls#IResourceNode#ResourceParent">
+            <inheritdoc/>
+        </member>
+        <member name="M:Avalonia.Markup.Xaml.Styling.StyleInclude.Attach(Avalonia.Styling.IStyleable,Avalonia.Styling.IStyleHost)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Avalonia.Markup.Xaml.Styling.StyleInclude.TryGetResource(System.String,System.Object@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Avalonia.Markup.Xaml.Styling.StyleInclude.Avalonia#Styling#ISetStyleParent#NotifyResourcesChanged(Avalonia.Controls.ResourcesChangedEventArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Avalonia.Markup.Xaml.Styling.StyleInclude.Avalonia#Styling#ISetStyleParent#SetParent(Avalonia.Controls.IResourceNode)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Portable.Xaml.ComponentModel.TypeDescriptorExtensions.GetService``1(System.ComponentModel.ITypeDescriptorContext)">
+            <summary>
+            Gets the service from ITypeDescriptorContext
+            usually in TypeConverter in xaml reader context
+            examples:
+            context.GetService&lt;IXamlTypeResolver&gt;()
+            context.GetService&lt;IXamlNamespaceResolver&gt;()
+            context.GetService&lt;IXamlNameProvider&gt;()
+            context.GetService&lt;INamespacePrefixLookup&gt;()
+            context.GetService&lt;IXamlSchemaContextProvider&gt;()
+            context.GetService&lt;IRootObjectProvider&gt;()
+            context.GetService&lt;IProvideValueTarget&gt;()
+            </summary>
+            <typeparam name="T">Service Type</typeparam>
+            <param name="ctx">The TypeDescriptor context.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Portable.Xaml.ComponentModel.ShouldSerializeAttribute">
+            <summary>
+            This attribute defines method, which responcible for object serialization.
+            The method have to returns bool type and hasn't arguments.
+            </summary>
+        </member>
+        <member name="P:Portable.Xaml.ComponentModel.ShouldSerializeAttribute.MethodName">
+            <summary>
+            Method name which will responce for serialization
+            </summary>
+        </member>
+        <member name="T:Portable.Xaml.FlagValue">
+            <summary>
+            Struct to store flags and cache their value
+            </summary>
+            <remarks>
+            Usage (for best performance):  flags.Get(MyFlag) ?? flags.Set(MyFlag, SomeValueToBeCached());
+            </remarks>
+        </member>
+        <member name="T:Portable.Xaml.ReferenceValue`1">
+            <summary>
+            Struct to store a reference type and cache its value (even if null).
+            </summary>
+        </member>
+        <member name="M:Portable.Xaml.Schema.XamlMemberInvoker.IsDefaultValue(System.Object)">
+            <summary>
+            Gets a value indicating that the instance is considered the default value of the member.
+            </summary>
+            <remarks>
+            This uses the DefaultValueAttribute normally, but for immutable structs this is also useful to  define that 
+            the value is default.
+            
+            E.g. for immutable collections, this uses the IsDefault property to determine if it should be written to xaml.
+            </remarks>
+            <returns><c>true</c>, if the instance is the default value, <c>false</c> otherwise.</returns>
+            <param name="instance">instance of the object to test if it is default.</param>
+        </member>
+        <member name="T:Portable.Xaml.EnhancedXamlAttribute">
+            <summary>
+            Attribute to specify that it is an added feature not available in System.Xaml
+            </summary>
+        </member>
+        <member name="T:Portable.Xaml.XamlInvokerOptions">
+            <summary>
+            Options for member and type invokers.
+            </summary>
+        </member>
+        <member name="F:Portable.Xaml.XamlInvokerOptions.None">
+            <summary>
+            Use reflection, which is much slower than compiled code on each call.
+            </summary>
+        </member>
+        <member name="F:Portable.Xaml.XamlInvokerOptions.Compile">
+            <summary>
+            Compile an expression tree to get/set/add values, which has higher startup cost but is an 
+            order of magnatude faster than reflection.
+            </summary>
+        </member>
+        <member name="F:Portable.Xaml.XamlInvokerOptions.DeferCompile">
+            <summary>
+            Use reflection while the expression tree is compiled in a background thread.
+            </summary>
+            <remarks>
+            This (might) be the best of both worlds, where it uses reflection initially, but will compile the expression tree
+            in a background thread and use it when it is ready.
+            </remarks>
+        </member>
+        <member name="M:Portable.Xaml.XamlType.CanConvertFrom(Portable.Xaml.XamlType)">
+            <summary>
+            Gets a value indicating this type can be assigned or converted from the specified type.
+            </summary>
+            <returns><c>true</c>, if it can be assigned or converted from the input type , <c>false</c> otherwise.</returns>
+            <param name="xamlType">Type to convert from.</param>
+        </member>
+        <member name="M:Portable.Xaml.XamlType.CanConvertTo(Portable.Xaml.XamlType)">
+            <summary>
+            Gets a value indicating this type can be assigned or converted to the specified type
+            </summary>
+            <returns><c>true</c>, if it can be assigned or converted to the input type , <c>false</c> otherwise.</returns>
+            <param name="xamlType">Type to convert to.</param>
+        </member>
+        <member name="P:Portable.Xaml.XamlType.SerializationVisibility">
+            <summary>
+            Visability object during serialization. This property lookup attribute <see cref="T:System.ComponentModel.DesignerSerializationVisibilityAttribute"/>
+            </summary>
+        </member>
+        <member name="M:Portable.Xaml.XamlType.ShouldSerialize(System.Object)">
+            <summary>
+            Check instance can it serialize using <see cref="M:Portable.Xaml.XamlType.LookupShouldSerialize"/> and check the ShouldSerialize method in underlaing class 
+            </summary>
+            <param name="instance">The instance of the object (instance type must equals <see cref="P:Portable.Xaml.XamlType.UnderlyingType"/>)</param>
+        </member>
+        <member name="M:Portable.Xaml.XamlType.LookupShouldSerializeMethod">
+            <summary>
+            Lookup the method with name "ShouldSerialize" with return type is boolean and 0 arguments
+            </summary>
+            <returns>Method info if method found and null if not</returns>
+        </member>
+        <member name="M:Portable.Xaml.XamlType.LookupShouldSerialize">
+            <summary>
+            Lookup SerializationVisability attribute 
+            </summary>
+        </member>
+        <member name="M:Portable.Xaml.XamlXmlParser.Node(Portable.Xaml.XamlNodeType,System.Object,System.Xml.IXmlLineInfo)">
+            <summary>
+            Create new <see cref="T:Portable.Xaml.XamlXmlNodeInfo"/> Use this overload only then you want pass deferred line info information to instance
+            </summary>
+            <param name="nodeType">Type of new node</param>
+            <param name="nodeValue">Value of new node</param>
+            <param name="lineInfo">Line info</param>
+            <returns></returns>
+        </member>
+        <member name="T:Portable.Xaml.XamlXmlParser.MemberInfo">
+            <summary>
+            Information about member in xaml document
+            </summary>
+        </member>
+        <member name="F:Portable.Xaml.XamlXmlParser.MemberInfo.Member">
+            <summary>
+            Xaml member connected with this information
+            </summary>
+        </member>
+        <member name="F:Portable.Xaml.XamlXmlParser.MemberInfo.Value">
+            <summary>
+            Value of the member
+            </summary>
+        </member>
+        <member name="F:Portable.Xaml.XamlXmlParser.MemberInfo.LineInfo">
+            <summary>
+            Provided line information
+            </summary>
+        </member>
+        <member name="T:Portable.Xaml.XamlXmlParser.AttributeInfo">
+            <summary>
+            Information about attribute in xaml document
+            </summary>
+        </member>
+        <member name="F:Portable.Xaml.XamlXmlParser.AttributeInfo.Name">
+            <summary>
+            Name of the attribute
+            </summary>
+        </member>
+        <member name="F:Portable.Xaml.XamlXmlParser.AttributeInfo.Value">
+            <summary>
+            Value of the attribute
+            </summary>
+        </member>
+        <member name="F:Portable.Xaml.XamlXmlParser.AttributeInfo.LineInfo">
+            <summary>
+            Provided line information
+            </summary>
+        </member>
+        <member name="M:Portable.Xaml.XamlXmlReaderSettings.AddNamespace(System.String,System.String)">
+            <summary>
+            Adds a default namespace to read the xaml as a fragment.
+            </summary>
+            <param name="prefix">Prefix of namespace, or null for the default namespace</param>
+            <param name="xmlNamespace">Uri or clr-namespace to set as default</param>
+        </member>
+        <member name="M:Portable.Xaml.XamlXmlReaderSettings.AddNamespaces(System.Type)">
+            <summary>
+            Adds all namespace prefixes defined in the assembly of the specified type as default using <see cref="T:Portable.Xaml.Markup.XmlnsPrefixAttribute"/>
+            </summary>
+            <param name="type">Type of the assembly to lookup default prefixes for</param>
+        </member>
+        <member name="M:Portable.Xaml.XamlXmlReaderSettings.AddNamespaces(System.Reflection.Assembly)">
+            <summary>
+            Adds all namespace prefixes defined in the assembly as default using <see cref="T:Portable.Xaml.Markup.XmlnsPrefixAttribute"/>
+            </summary>
+            <param name="assembly">Assembly to lookup default prefixes for</param>
+        </member>
+    </members>
+</doc>
